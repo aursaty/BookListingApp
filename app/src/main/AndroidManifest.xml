@@ -16,7 +16,7 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         android:fullBackupContent="@xml/backup_descriptor">
         <activity android:name=".BookListingActivity">
-            <!--<meta-data android:name="android.app.searchable" />-->
+            <!--<meta-data andrtitlename="android.app.searchable" />-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
