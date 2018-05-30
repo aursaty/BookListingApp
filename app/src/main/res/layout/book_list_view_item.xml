@@ -5,6 +5,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:id="@+id/book_preview"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:contentDescription="@string/book_image" />

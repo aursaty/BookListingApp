@@ -1,5 +1,8 @@
 package ua.alex.booklistingapp
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.media.Image
 import android.util.Log
 import org.json.JSONException
 import org.json.JSONObject
@@ -75,7 +78,10 @@ class QueryUtils {
             var volumeInfo: JSONObject
             var title: String
             var author: String
+            var bitmap: Bitmap
             var listPrice: JSONObject
+            var imageLinks: JSONObject
+            var urlThumbnail: URL
             var price: String
             var seleability: String
             var publichYear: String
@@ -88,6 +94,13 @@ class QueryUtils {
                 } catch (e: JSONException) {
                     "Unknown"
                 }
+                try {
+                    imageLinks = volumeInfo.getJSONObject("imageLinks")
+                    urlThumbnail = URL(imageLinks.getString("thumbnail"))
+                    bitmap = BitmapFactory.decodeStream(urlThumbnail.openConnection().getInputStream())
+                } catch (e: JSONException) {
+                    bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
+                }
                 seleability = currentBookJson.getJSONObject("saleInfo")
                         .getString("saleability")
                 if (seleability == "FOR SALE") {
@@ -98,8 +111,11 @@ class QueryUtils {
                 } else {
                     price = seleability
                 }
+//                } catch (e: JSONException) {
+//                    price = ""
+//                }
                 publichYear = volumeInfo.getString("publishedDate").split('-')[0]
-                bookList.add(Book(title, author, publichYear, price))
+                bookList.add(Book(title, author, publichYear, price, bitmap))
             }
             return bookList
         }

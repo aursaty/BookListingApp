@@ -1,5 +1,7 @@
 package ua.alex.booklistingapp
 
+import android.graphics.Bitmap
+
 /**
  * Created by aursaty on 5/21/2018.
  */
@@ -7,4 +9,5 @@ package ua.alex.booklistingapp
 data class Book(val title: String,
                 val author: String,
                 val publishYear: String,
-                val price: String)
+                val price: String,
+                val image: Bitmap)

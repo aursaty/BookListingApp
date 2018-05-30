@@ -5,6 +5,7 @@ import android.app.SearchManager
 import android.content.AsyncTaskLoader
 import android.content.Context
 import android.content.Loader
+import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -39,10 +40,10 @@ class BookListingActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<L
 //                     TODO add bad connection snackbar
                     return false
                 }
-                updateUi(listOf(Book("Angels and Demons", "Dan Brown", "1996", "150"),
-                        Book("The Da Vinci Code", "Dan Brown", "1996", "150"),
-                        Book("Lord of the Rings", "J. R. Tolkien", "1996", "150"),
-                        Book("Harry Potter", "J. K. Rowling", "1996", "150")))
+                updateUi(listOf(Book("Angels and Demons", "Dan Brown", "1996", "150", Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)),
+                        Book("The Da Vinci Code", "Dan Brown", "1996", "150", Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)),
+                        Book("Lord of the Rings", "J. R. Tolkien", "1996", "150", Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)),
+                        Book("Harry Potter", "J. K. Rowling", "1996", "150", Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888))))
                 loaderManager.initLoader<List<Book>>(0, null, this@BookListingActivity)
                 return false
             }

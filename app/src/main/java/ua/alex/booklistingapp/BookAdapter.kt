@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.TextView
 
 /**
  *
  * Created by aursaty on 5/21/2018.
  */
-
 
 class BookAdapter(context: Context?, objects: List<Book>?) : ArrayAdapter<Book>(context, 0, objects) {
 
@@ -27,6 +27,7 @@ class BookAdapter(context: Context?, objects: List<Book>?) : ArrayAdapter<Book>(
         listItemView.findViewById<TextView>(R.id.author).text = book.author
         listItemView.findViewById<TextView>(R.id.publishedYear).text = book.publishYear
         listItemView.findViewById<TextView>(R.id.price).text = book.price
+        listItemView.findViewById<ImageView>(R.id.book_preview).setImageBitmap(book.image)
 
         return listItemView
     }
