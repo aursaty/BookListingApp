@@ -26,7 +26,7 @@ class BookAdapter(context: Context?, objects: List<Book>?) : ArrayAdapter<Book>(
         listItemView!!.findViewById<TextView>(R.id.book_title).text = book.title
         listItemView.findViewById<TextView>(R.id.author).text = book.author
         listItemView.findViewById<TextView>(R.id.publishedYear).text = book.publishYear
-        listItemView.findViewById<TextView>(R.id.price).text = book.price
+        listItemView.findViewById<TextView>(R.id.language).text = book.language
         listItemView.findViewById<ImageView>(R.id.book_preview).setImageBitmap(book.image)
 
         return listItemView

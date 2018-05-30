@@ -7,9 +7,11 @@ import android.content.Context
 import android.content.Loader
 import android.graphics.Bitmap
 import android.net.ConnectivityManager
+import android.support.design.widget.Snackbar
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
+import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.SearchView
 
@@ -37,7 +39,9 @@ class BookListingActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<L
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 if (!checkConnection()) {
-//                     TODO add bad connection snackbar
+                    Snackbar.make(findViewById<LinearLayout>(R.id.parentLinearLayout),
+                            "Connection error!",
+                            Snackbar.LENGTH_SHORT).show()
                     return false
                 }
                 updateUi(listOf(Book("Angels and Demons", "Dan Brown", "1996", "150", Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)),

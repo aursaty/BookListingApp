@@ -2,7 +2,6 @@ package ua.alex.booklistingapp
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.media.Image
 import android.util.Log
 import org.json.JSONException
 import org.json.JSONObject
@@ -82,9 +81,9 @@ class QueryUtils {
             var listPrice: JSONObject
             var imageLinks: JSONObject
             var urlThumbnail: URL
-            var price: String
-            var seleability: String
-            var publichYear: String
+            var language: String
+            var saleability: String
+            var publishYear: String
             for (i in 0 until bookItemsArray.length()) {
                 currentBookJson = bookItemsArray.getJSONObject(i)
                 volumeInfo = currentBookJson.getJSONObject("volumeInfo")
@@ -101,21 +100,23 @@ class QueryUtils {
                 } catch (e: JSONException) {
                     bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
                 }
-                seleability = currentBookJson.getJSONObject("saleInfo")
-                        .getString("saleability")
-                if (seleability == "FOR SALE") {
-                    listPrice = currentBookJson.getJSONObject("saleInfo")
-                            .getJSONObject("listPrice")
-                    price = listPrice.getString("amount") +
-                            listPrice.getString("currencyCode")
-                } else {
-                    price = seleability
-                }
+                language = volumeInfo.getString("language")
+//                saleability = currentBookJson.getJSONObject("saleInfo")
+//                        .getString("saleability")
+//                if (saleability == "FOR_SALE") {
+//                    listPrice = currentBookJson.getJSONObject("saleInfo")
+//                            .getJSONObject("listPrice")
+//                    price = listPrice.getString("amount") +
+//                            listPrice.getString("currencyCode")
+//                } else {
+//                    price = saleability
+//                }
+
 //                } catch (e: JSONException) {
 //                    price = ""
 //                }
-                publichYear = volumeInfo.getString("publishedDate").split('-')[0]
-                bookList.add(Book(title, author, publichYear, price, bitmap))
+                publishYear = volumeInfo.getString("publishedDate").split('-')[0]
+                bookList.add(Book(title, author, publishYear, language, bitmap))
             }
             return bookList
         }

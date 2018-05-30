@@ -9,5 +9,5 @@ import android.graphics.Bitmap
 data class Book(val title: String,
                 val author: String,
                 val publishYear: String,
-                val price: String,
+                val language: String,
                 val image: Bitmap)
