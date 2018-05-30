@@ -1,14 +1,23 @@
 package ua.alex.booklistingapp
 
+import android.app.LoaderManager
 import android.app.SearchManager
+import android.content.AsyncTaskLoader
 import android.content.Context
+import android.content.Loader
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
+import android.widget.ListView
 import android.widget.SearchView
-import android.widget.Toast
 
-class BookListingActivity : AppCompatActivity() {
+class BookListingActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<List<Book>> {
+
+    companion object {
+        val LOG_TAG: String = BookListingActivity::class.java.name
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_listing)
@@ -23,11 +32,18 @@ class BookListingActivity : AppCompatActivity() {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
 
         searchView.setOnSearchClickListener {
-            Toast.makeText(this, "KEK", Toast.LENGTH_LONG).show()
         }
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
-                println(p0)
+                if (!checkConnection()) {
+//                     TODO add bad connection snackbar
+                    return false
+                }
+                updateUi(listOf(Book("Angels and Demons", "Dan Brown", "1996", "150"),
+                        Book("The Da Vinci Code", "Dan Brown", "1996", "150"),
+                        Book("Lord of the Rings", "J. R. Tolkien", "1996", "150"),
+                        Book("Harry Potter", "J. K. Rowling", "1996", "150")))
+                loaderManager.initLoader<List<Book>>(0, null, this@BookListingActivity)
                 return false
             }
 
@@ -38,4 +54,49 @@ class BookListingActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onCreateLoader(p0: Int, p1: Bundle?): Loader<List<Book>> {
+        return BookLoader(this, "https://www.googleapis.com/books/v1/volumes?q=a&maxResults=30")
+    }
+
+    override fun onLoadFinished(p0: Loader<List<Book>>?, p1: List<Book>?) {
+        if (p1 != null) {
+            if (p1.isEmpty()) {
+
+            } else {
+                updateUi(p1)
+            }
+        }
+    }
+
+    override fun onLoaderReset(p0: Loader<List<Book>>?) {
+
+    }
+
+    private fun updateUi(books: List<Book>) {
+        val bookListView = findViewById<ListView>(R.id.book_list_view)
+
+        val bookAdapter = BookAdapter(this, books)
+
+        bookListView.adapter = bookAdapter
+    }
+
+    private fun checkConnection(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
+    }
+
+    private class BookLoader(context: Context?, stringUrl: String) : AsyncTaskLoader<List<Book>>(context) {
+        val requestUrl = stringUrl
+
+        override fun onStartLoading() {
+            forceLoad()
+        }
+
+        override fun loadInBackground(): List<Book> {
+            val books =  QueryUtils.fetchBookData(requestUrl)
+            return books
+        }
+
+    }
 }

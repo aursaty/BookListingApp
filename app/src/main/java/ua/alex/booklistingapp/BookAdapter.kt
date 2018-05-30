@@ -11,7 +11,10 @@ import android.widget.TextView
  *
  * Created by aursaty on 5/21/2018.
  */
-class BookAdapter(context: Context?, resource: Int, objects: MutableList<Book>?) : ArrayAdapter<Book>(context, resource, objects) {
+
+
+class BookAdapter(context: Context?, objects: List<Book>?) : ArrayAdapter<Book>(context, 0, objects) {
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var listItemView = convertView
         if (listItemView == null)
