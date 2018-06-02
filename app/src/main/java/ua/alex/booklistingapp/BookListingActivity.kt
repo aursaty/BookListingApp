@@ -5,7 +5,6 @@ import android.app.SearchManager
 import android.content.AsyncTaskLoader
 import android.content.Context
 import android.content.Loader
-import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -53,7 +52,11 @@ class BookListingActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<L
 //                        Book("Harry Potter", "J. K. Rowling", "1996", "150", Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888))))
                 val bundle = Bundle()
                 bundle.putString(QUERY_TEXT_BUNDLE_KEY, p0)
-                loaderManager.initLoader<List<Book>>(0, bundle, this@BookListingActivity)
+
+                if (loaderManager.getLoader<List<Book>>(0) == null)
+                    loaderManager.initLoader<List<Book>>(0, bundle, this@BookListingActivity).forceLoad()
+                else
+                    loaderManager.restartLoader(0, bundle, this@BookListingActivity)
                 return false
             }
 
@@ -79,7 +82,6 @@ class BookListingActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<L
     }
 
     override fun onLoaderReset(p0: Loader<List<Book>>?) {
-
     }
 
     private fun updateUi(books: List<Book>) {
