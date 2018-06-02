@@ -32,7 +32,6 @@
                 android:textSize="18sp"
                 tools:text="Angels and Demons\nAngels and Demons\nAngels and Demons" />
 
-
             <TextView
                 android:id="@+id/language"
                 android:layout_width="0dp"

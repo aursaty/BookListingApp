@@ -46,7 +46,7 @@ class QueryUtils {
                 val inputStream = urlConnection.inputStream
                 jsonResponse = readFromStream(inputStream)
             } else {
-                Log.e(LOG_TAG, "Problem retrieving the boo")
+                Log.e(LOG_TAG, "Problem retrieving the books")
             }
             return jsonResponse
         }
@@ -70,7 +70,11 @@ class QueryUtils {
                 return ArrayList()
 
             val baseJsonResponse = JSONObject(booksJson)
-            val bookItemsArray = baseJsonResponse.getJSONArray("items")
+            val bookItemsArray = try {
+                baseJsonResponse.getJSONArray("items")
+            } catch (e: JSONException) {
+                return emptyList()
+            }
 
             val bookList = ArrayList<Book>()
             var currentBookJson: JSONObject

@@ -2,4 +2,6 @@
     <string name="app_name">BookListingApp</string>
     <string name="search_title">Search</string>
     <string name="book_image">Book Image</string>
+    <string name="start_search_text">It\'s Alex Books app.\nTap on magnifier to start search.</string>
+    <string name="no_books">Your search did not match any docunents</string>
 </resources>
