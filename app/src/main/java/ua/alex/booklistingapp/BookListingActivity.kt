@@ -7,8 +7,8 @@ import android.content.Context
 import android.content.Loader
 import android.graphics.Bitmap
 import android.net.ConnectivityManager
-import android.support.design.widget.Snackbar
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.widget.LinearLayout
@@ -17,7 +17,10 @@ import android.widget.SearchView
 
 class BookListingActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<List<Book>> {
 
+
     companion object {
+        val BOOKS_REQUEST = "https://www.googleapis.com/books/v1/volumes?q=%s&maxResults=10"
+        val QUERY_TEXT_BUNDLE_KEY = "QUERY_TEXT_BUNDLE_KEY"
         val LOG_TAG: String = BookListingActivity::class.java.name
     }
 
@@ -44,11 +47,13 @@ class BookListingActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<L
                             Snackbar.LENGTH_SHORT).show()
                     return false
                 }
-                updateUi(listOf(Book("Angels and Demons", "Dan Brown", "1996", "150", Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)),
-                        Book("The Da Vinci Code", "Dan Brown", "1996", "150", Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)),
-                        Book("Lord of the Rings", "J. R. Tolkien", "1996", "150", Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)),
-                        Book("Harry Potter", "J. K. Rowling", "1996", "150", Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888))))
-                loaderManager.initLoader<List<Book>>(0, null, this@BookListingActivity)
+//                updateUi(listOf(Book("Angels and Demons", "Dan Brown", "1996", "150", Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)),
+//                        Book("The Da Vinci Code", "Dan Brown", "1996", "150", Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)),
+//                        Book("Lord of the Rings", "J. R. Tolkien", "1996", "150", Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)),
+//                        Book("Harry Potter", "J. K. Rowling", "1996", "150", Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888))))
+                val bundle = Bundle()
+                bundle.putString(QUERY_TEXT_BUNDLE_KEY, p0)
+                loaderManager.initLoader<List<Book>>(0, bundle, this@BookListingActivity)
                 return false
             }
 
@@ -60,7 +65,7 @@ class BookListingActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<L
     }
 
     override fun onCreateLoader(p0: Int, p1: Bundle?): Loader<List<Book>> {
-        return BookLoader(this, "https://www.googleapis.com/books/v1/volumes?q=a&maxResults=30")
+        return BookLoader(this, String.format(BOOKS_REQUEST, p1!![QUERY_TEXT_BUNDLE_KEY]))
     }
 
     override fun onLoadFinished(p0: Loader<List<Book>>?, p1: List<Book>?) {
@@ -99,7 +104,7 @@ class BookListingActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<L
         }
 
         override fun loadInBackground(): List<Book> {
-            val books =  QueryUtils.fetchBookData(requestUrl)
+            val books = QueryUtils.fetchBookData(requestUrl)
             return books
         }
 

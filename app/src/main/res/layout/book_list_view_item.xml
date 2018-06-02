@@ -12,56 +12,59 @@
         android:contentDescription="@string/book_image" />
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:baselineAligned="false">
+        android:baselineAligned="false"
+        android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="6dp">
 
             <TextView
                 android:id="@+id/book_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
+                android:layout_weight="4"
+                android:maxLines="3"
                 android:textColor="#212121"
                 android:textSize="18sp"
-                tools:text="Angels and Demons" />
+                tools:text="Angels and Demons\nAngels and Demons\nAngels and Demons" />
 
 
             <TextView
                 android:id="@+id/language"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:textColor="#212121"
-                android:textSize="18sp"
+                android:layout_weight="1"
+                android:gravity="end"
                 tools:text="US" />
+        </LinearLayout>
 
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_marginTop="12dp"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:padding="6dp">
+
             <TextView
                 android:id="@+id/author"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="false"
+                android:layout_weight="4"
+                android:maxLines="1"
+                android:textColor="#212121"
+                android:textSize="18sp"
                 tools:text="Dan Brown" />
 
             <TextView
                 android:id="@+id/publishedYear"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                tools:text="1999" />
-        </RelativeLayout>
+                android:layout_weight="1"
+                android:gravity="end"
+                tools:text="\???" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

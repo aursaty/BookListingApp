@@ -78,11 +78,11 @@ class QueryUtils {
             var title: String
             var author: String
             var bitmap: Bitmap
-            var listPrice: JSONObject
+//            var listPrice: JSONObject
             var imageLinks: JSONObject
             var urlThumbnail: URL
             var language: String
-            var saleability: String
+//            var saleability: String
             var publishYear: String
             for (i in 0 until bookItemsArray.length()) {
                 currentBookJson = bookItemsArray.getJSONObject(i)
@@ -115,7 +115,11 @@ class QueryUtils {
 //                } catch (e: JSONException) {
 //                    price = ""
 //                }
-                publishYear = volumeInfo.getString("publishedDate").split('-')[0]
+                publishYear = try {
+                    volumeInfo.getString("publishedDate").split('-')[0]
+                } catch (e: JSONException) {
+                    "UNKNOWN"
+                }
                 bookList.add(Book(title, author, publishYear, language, bitmap))
             }
             return bookList
